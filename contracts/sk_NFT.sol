@@ -12,7 +12,7 @@ import "../node_modules/@openzeppelin/contracts/utils/Strings.sol";
 import "../node_modules/@openzeppelin/contracts/utils/Address.sol";
 import "../node_modules/@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract Monkeys is
+contract SK_NFT is
     ERC721,
     ERC721URIStorage,
     ERC721Enumerable,
@@ -29,7 +29,7 @@ contract Monkeys is
 
     string private URIBASE;
     string private URIEXTENSION;
-    uint256 public constant aMONKEYS = 222;
+    uint256 public constant sK_NFT = 222;
     uint256 public PRICE;
     address private devAddress;
 
@@ -39,7 +39,7 @@ contract Monkeys is
         uint256 mintPrice,
         string memory _uriBase,
         string memory _uriExt
-    ) ERC721("Avax Monkeys", "aMONKEYS") {
+    ) ERC721("Splash Kings NFT'S", "sK_NFT") {
         setURIBase(_uriBase);
         setURIExt(_uriExt);
         setPrice(mintPrice);
@@ -47,7 +47,7 @@ contract Monkeys is
     }
 
     modifier saleIsOpen() {
-        require(_totalSupply() <= aMONKEYS, "All Minted");
+        require(_totalSupply() <= sK_NFT, "All Minted");
         if (_msgSender() != owner()) {
             require(!paused(), "Paused");
         }
@@ -114,7 +114,7 @@ contract Monkeys is
 
             _setTokenURI(tokenId, URI);
 
-            emit MonkeyMinted(_to, tokenId, URI);
+            emit sk_NFT_Minted(_to, tokenId, URI);
         }
     }
 
@@ -149,7 +149,7 @@ contract Monkeys is
         return tokensId;
     }
 
-    function withdrawMonkeyBusiness() public payable nonReentrant {
+    function withdraw_sk_NFT_Business() public payable nonReentrant {
         require(msg.sender == devAddress, "Only the dev can withdraw");
         require(address(this).balance != 0, "Nothing to withdraw");
         uint256 balance = address(this).balance;

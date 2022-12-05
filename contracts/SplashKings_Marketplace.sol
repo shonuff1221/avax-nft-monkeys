@@ -7,7 +7,7 @@ import "../node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "../node_modules/@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "../node_modules/@openzeppelin/contracts/utils/Address.sol";
 
-contract Marketplace is Ownable, ReentrancyGuard {
+contract SplashKings_Marketplace is Ownable, ReentrancyGuard {
     using Address for address payable;
 
     address payable publisherWallet;
@@ -29,7 +29,7 @@ contract Marketplace is Ownable, ReentrancyGuard {
 
     mapping(address => mapping(uint256 => Offer)) tokenOffer;
 
-    event monkeyAdded(
+    event sk_NFT_Added(
         address tokenAddress,
         address seller,
         uint256 price,
@@ -37,7 +37,7 @@ contract Marketplace is Ownable, ReentrancyGuard {
         uint256 offerId,
         bool isSold
     );
-    event monkeySold(
+    event sk_NFT_Sold(
         address tokenAddress,
         address buyer,
         uint256 price,
@@ -51,9 +51,9 @@ contract Marketplace is Ownable, ReentrancyGuard {
         uint256 tokenId,
         uint256 offerId
     );
-    event monkeyRemoved(address owner, uint256 tokenId, address tokenAddress);
+    event sk_NFT_Removed(address owner, uint256 tokenId, address tokenAddress);
 
-    modifier onlyMonkeyOwner(address _tokenAddress, uint256 _tokenId) {
+    modifier only_sk_NFT_Owner(address _tokenAddress, uint256 _tokenId) {
         IERC721 tokenContract = IERC721(_tokenAddress);
         require(
             tokenContract.ownerOf(_tokenId) == msg.sender,
@@ -124,7 +124,7 @@ contract Marketplace is Ownable, ReentrancyGuard {
         address tokenAddress
     )
         public
-        onlyMonkeyOwner(tokenAddress, tokenId)
+        only_sk_NFT_Owner(tokenAddress, tokenId)
         isApprovedForAll(tokenAddress)
     {
         require(
@@ -150,7 +150,7 @@ contract Marketplace is Ownable, ReentrancyGuard {
 
         activeOffers[tokenAddress][tokenId] = true;
 
-        emit monkeyAdded(
+        emit sk_NFT_Added(
             tokenAddress,
             msg.sender,
             price,
@@ -182,7 +182,7 @@ contract Marketplace is Ownable, ReentrancyGuard {
         ];
         delete offers[offerId];
 
-        emit monkeyRemoved(msg.sender, tokenId, tokenAddress);
+        emit sk_NFT_Removed(msg.sender, tokenId, tokenAddress);
     }
 
     function changePrice(uint256 newPrice, uint256 offerId)
@@ -215,7 +215,7 @@ contract Marketplace is Ownable, ReentrancyGuard {
         );
     }
 
-    function buyMonkey(uint256 offerId)
+    function buy_sk_NFT(uint256 offerId)
         public
         payable
         nonReentrant
@@ -250,7 +250,7 @@ contract Marketplace is Ownable, ReentrancyGuard {
 
         _distributeFees(price, seller);
 
-        emit monkeySold(tokenAddress, msg.sender, price, tokenId, offerId);
+        emit sk_NFT_Sold(tokenAddress, msg.sender, price, tokenId, offerId);
     }
 
     function _computePublisherFee(uint256 price)
